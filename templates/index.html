@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+     <meta property="og:site_name" content="Glass Rooms">
+     <meta property="og:title" content="Glass Rooms Timetable">
+     <meta property="og:type" content="website">
+     <meta name="description" content="Timetable for the SCSS Computer Science Small Group Meeting Rooms in Trinity College Dublin">
+     <meta property="og:image" content="{{ url_for('static', filename='img/calendar-128.png') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='img/calendar-128.png') }}" type="image/x-icon">
+    <title>Glassrooms Timetable</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel='stylesheet' id='font-awesome-css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css' type='text/css' media='all' />
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/main.js') }}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.6666, maximum-scale=1.0, minimum-scale=0.6666">
+  </head>
+
+  <body onload="setUpTable();" class="vsc-initialized">
+
+    <div class="container text-center">
+      <div class="row" style="padding-top:30px;">
+        <div class="col">
+         <h1>Glass Rooms Timetable</h1>
+       </div>
+     </div>
+     <div class="row">
+        <div class="col-lg-6 offset-lg-3" style="display:flex;flex-direction:row;justify-content:center;">
+          <button class="bg-none border-0" onclick="offset(-1);"><i class="fa fa-lg fa-arrow-left"></i></button>
+          <h2 id="date-text" style="margin:30px;">{{ date_text }}</h2>
+          <button class="bg-none border-0" onclick="offset(1);"><i class="fa fa-lg fa-arrow-right"></i></button></div>
+    </div>
+    <div class="form">
+
+      <div id="booking" class="booking hidden" onclick="hide_form();">
+        <div class="booking-content">
+          <i class="close fa fa-close" onclick="hide_form();"></i>
+          <h3>Book <span id="title">Room 7</span></h3>
+          <p id="formDate">{{ date_text }}</p>
+          <div id="buttons" class="buttons">
+            <span class="button selected" onclick="change_val(-1);">05:00-06:00</span>
+            <span class="button" onclick="change_val(1);">05:00-07:00</span>
+          </div>
+          <div class="form">
+            <form method="POST" id="form" onsubmit="return validate(this);" target="_blank" action="https://www.scss.tcd.ie/cgi-bin/webcal/sgmr/sgmr7.request.pl">
+              <input type="HIDDEN" name="StartTime" id="StartTime"/>
+              <input type="HIDDEN" name="EndTime" id="EndTime"/>
+              <input type="HIDDEN" name="Fullname" value="Anonymous">
+              <input type="HIDDEN" name="Status" value="NotGiven">
+              <input type="HIDDEN" name="StartDate" id="StartDate"/>
+              <input type="HIDDEN" name="StartMonth" id="StartMonth"/>
+              <input type="HIDDEN" name="StartYear" id="StartYear"/>
+              <input class="btn btn-primary" style="margin:10px;" type="SUBMIT" id="submit" value="Room 7 Submit Booking Request"/>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+         <table class="glassrooms-table" style="width:100%;align:center;">
+                <tr style="height:80px;">
+                  <td></td>
+                  <td><strong><span class="d-none d-md-block">Room 1</span><span class="d-block d-md-none">1</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 2</span><span class="d-block d-md-none">2</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 3</span><span class="d-block d-md-none">3</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 4</span><span class="d-block d-md-none">4</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 5</span><span class="d-block d-md-none">5</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 6</span><span class="d-block d-md-none">6</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 7</span><span class="d-block d-md-none">7</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 8</span><span class="d-block d-md-none">8</span></strong></td>
+                  <td><strong><span class="d-none d-md-block">Room 9</span><span class="d-block d-md-none">9</span></strong></td>
+              </tr>
+              {% for h in hours %}
+                <tr id="hour-{{ loop.index0 }}"{% if not h.upcoming %} class="d-none"{% endif %} style="height:60px;">
+                  <td id="td-{{ loop.index0 }}-heading" style="padding:0px;"><strong>{{h.hour}}:00</strong></td>
+                  <td id="room-1-hour-{{ loop.index0 }}"></td>
+                  <td id="room-2-hour-{{ loop.index0 }}"></td>
+                  <td id="room-3-hour-{{ loop.index0 }}"></td>
+                  <td id="room-4-hour-{{ loop.index0 }}"></td>
+                  <td id="room-5-hour-{{ loop.index0 }}"></td>
+                  <td id="room-6-hour-{{ loop.index0 }}"></td>
+                  <td id="room-7-hour-{{ loop.index0 }}"></td>
+                  <td id="room-8-hour-{{ loop.index0 }}"></td>
+                  <td id="room-9-hour-{{ loop.index0 }}"></td>
+                </tr>
+              {% endfor %}
+        </table>
+      </div>
+    </div>
+    <div class="row" style="padding-bottom:50px;">
+      <div class="col-6 offset-3">
+        <button class="btn btn-dark" onclick="switchFullDayView();">SEE FULL DAY</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+  </body>
+</html>
