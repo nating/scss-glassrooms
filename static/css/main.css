@@ -1,0 +1,59 @@
+
+/* Original content */
+
+td:{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.glassrooms-table td{
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Content forked from from http://glassrooms.zach.ie */
+
+div.booking {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(220, 220, 220, 0.5);
+}
+
+div.booking-content {
+	background-color: white;
+	margin: 20% auto;
+	padding: 30px;
+	width: 80%;
+	max-width: 500px;
+}
+
+div.booking .button.selected {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+div.booking form select {
+	display: none;
+}
+
+div.booking.hidden {
+	display: none;
+}
+
+div.booking .close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+div.booking .close:hover,
+div.booking .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
